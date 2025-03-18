@@ -1,6 +1,7 @@
 import { generateToken } from "../lib/utils.js"
 import User from "../models/user.model.js"
 import bcrypt from 'bcryptjs'
+import cloudinary from "../lib/cloudinary.js"
 
 export async function handleUserSignUp(req,res) {
     const {fullName, email, password} = req.body
@@ -107,13 +108,33 @@ export function handleUserLogout(req,res) {
     }
 }
 
-export function handleUpdateProfile(req,res) {
+export async function handleUpdateProfile(req,res) {
     try{
-        // Expire cookies
-        res.cookie("jwt","",{maxAge:0})
-        res.status(200).json({message: "User logged out"})
+        const {profilePic} = req.body
+        const userId = req.user._id
+
+        if(!profilePic){
+            return res.status(400).json({
+                message: "Profile pic is required"
+            })
+        }
+
+        const uploadRes = await cloudinary.uploader.upload(profilePic)
+        const updatedUser = await User.findByIdAndUpdate(userId, {profilePic:uploadRes.secure_url}, {new:true})
+
+        return res.status(200).json(updatedUser)
+
     }catch(error){
-        console.log("Error in logout controller", error.message)
+        console.log("Error in profilePic controller", error.message)
+    }
+}
+
+export function handlecheckAuth(req,res) {
+    try{
+        res.status(200).json(req.user)
+    }catch(error){
+        console.log("Error in checkAuth controller", error.message)
+        res.status(500).json({message: "Internal Server Error"})
     }
 }
 
