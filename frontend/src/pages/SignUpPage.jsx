@@ -58,13 +58,13 @@ const SignUpPage = () => {
               <label className="label">
                 <span className="label-text font-medium">Full Name</span>
               </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <div className="relative w-full h-12">
+                <div className="absolute top-1/2 left-3 -translate-y-1/2 flex items-center">
                   <User className="size-5 text-base-content/40" />
                 </div>
                 <input
                   type="text"
-                  className={`input input-bordered w-full pl-10`}
+                  className="input input-bordered w-full pl-10 h-12"
                   placeholder="John Doe"
                   value={formData.fullName}
                   onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}

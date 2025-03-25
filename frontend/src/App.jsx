@@ -1,6 +1,6 @@
-import React from 'react'
 import {Routes, Route, Navigate} from 'react-router-dom'
-import {Loader} from 'lucide-react'
+import { Loader } from "lucide-react"
+import { Toaster } from "react-hot-toast"
 
 import HomePage from "./pages/HomePage"
 import SignUpPage from "./pages/SignUpPage"
@@ -38,6 +38,8 @@ if(isCheckingAuth && !authUser){
         <Route path="/settings" element={!authUser ? <SettingsPage />: <Navigate to="/" />} />
         <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/login" />} />
       </Routes>
+
+      <Toaster />
     </div>
   )
 }
