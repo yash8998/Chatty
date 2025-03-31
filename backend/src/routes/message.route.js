@@ -5,7 +5,7 @@ import { protectRoute } from "../middlewares/auth.middleware.js"
 const router =  express.Router()
 
 // Get friends
-router.get("/user",protectRoute, getUsersForSidebar)
+router.get("/users",protectRoute, getUsersForSidebar)
 
 // Get messages between two users
 router.get("/:id",protectRoute, getMessages)
