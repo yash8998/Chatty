@@ -41,11 +41,13 @@ export const sendMessage = async (req, res) => {
     const { id: receiverId } = req.params;
     const senderId = req.user._id;
 
+
     let imageUrl;
     if (image) {
       // Upload base64 image to cloudinary
       const uploadResponse = await cloudinary.uploader.upload(image);
       imageUrl = uploadResponse.secure_url;
+      console.log(imageUrl)
     }
 
     const newMessage = new Message({
@@ -56,6 +58,8 @@ export const sendMessage = async (req, res) => {
     });
 
     await newMessage.save();
+
+    console.log(newMessage)
 
     const receiverSocketId = getReceiverSocketId(receiverId);
     if (receiverSocketId) {
